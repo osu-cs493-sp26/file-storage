@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import { PrismaClientValidationError } from "@prisma/client/runtime/client"
 
 import api from './api/index.js'
+import prisma from './lib/prisma.js'
 
 const app = express()
 const port = process.env.PORT || 8000
@@ -23,6 +24,18 @@ app.use(express.static("./public"))
  * API endpoints are factored into the api/ directory.
  */
 app.use('/', api)
+
+app.get("/media/images/:filename", async (req, res, next) => {
+    const filename = req.params.filename
+    const image = await prisma.image.findUnique({
+        where: { filename: filename }
+    })
+    if (image) {
+        res.status(200).sendFile(`${import.meta.dirname}/${image.path}`)
+    } else {
+        next()
+    }
+})
 
 app.use((err, req, res, next) => {
     if (err instanceof PrismaClientValidationError) {
