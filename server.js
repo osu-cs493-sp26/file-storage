@@ -31,7 +31,7 @@ app.get("/media/images/:filename", async (req, res, next) => {
         where: { filename: filename }
     })
     if (image) {
-        res.status(200).sendFile(`${import.meta.dirname}/${image.path}`)
+        res.status(200).sendFile(image.path)
     } else {
         next()
     }

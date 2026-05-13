@@ -7,10 +7,11 @@ import prisma from '../lib/prisma.js'
 
 const router = Router()
 
+
 const imageRegex = /image\/.+/
 const upload = multer({
     storage: multer.diskStorage({
-        destination: "./images",
+        destination: `${import.meta.dirname}/../images`,
         filename: (req, file, callback) => {
             const filename = crypto.pseudoRandomBytes(16).toString("hex")
             const extension = mime.extension(file.mimetype)
