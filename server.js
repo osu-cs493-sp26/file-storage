@@ -15,6 +15,11 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 /*
+ * Publish files in the public/ directory.
+ */
+app.use(express.static("./public"))
+
+/*
  * API endpoints are factored into the api/ directory.
  */
 app.use('/', api)
